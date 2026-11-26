@@ -1,5 +1,9 @@
 package ru.yandex.practicum;
 
+import ru.yandex.practicum.exceptions.GameRuleException;
+import ru.yandex.practicum.exceptions.InvalidWordFormatException;
+import ru.yandex.practicum.exceptions.WordNotFoundInDictionaryException;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;

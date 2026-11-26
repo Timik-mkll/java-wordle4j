@@ -2,7 +2,11 @@ package ru.yandex.practicum;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.exceptions.GameRuleException;
+import ru.yandex.practicum.exceptions.InvalidWordFormatException;
+import ru.yandex.practicum.exceptions.WordNotFoundInDictionaryException;
 
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +34,7 @@ class WordleTest {
     }
 
     @Test
+    @DisplayName("Нормализация слова: убираем пробелы, приводим к нижнему регистру и меняем ё на е")
     void shouldNormalizeWordsWithYoAndCase() {
         assertEquals("елка", WordleDictionary.normalize("  ЁЛКА "));
         assertEquals("герой", WordleDictionary.normalize("ГЕРОЙ"));

@@ -1,5 +1,9 @@
 package ru.yandex.practicum;
 
+import ru.yandex.practicum.exceptions.GameRuleException;
+import ru.yandex.practicum.exceptions.InvalidWordFormatException;
+import ru.yandex.practicum.exceptions.WordNotFoundInDictionaryException;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -8,6 +12,7 @@ public class Wordle {
 
     private static final String DICTIONARY_FILE = "words_ru.txt";
     private static final String LOG_FILE = "wordle.log";
+
 
     public static void main(String[] args) {
         try (PrintWriter log = new PrintWriter(
@@ -41,6 +46,7 @@ public class Wordle {
 
     private static void runGameLoop(WordleGame game, PrintWriter log) {
         Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+        int remainingHints = 5;
 
         System.out.println("Добро пожаловать в Wordle!");
         System.out.println("Угадайте существительное из " + WordleDictionary.WORD_LENGTH
@@ -48,7 +54,7 @@ public class Wordle {
         System.out.println("Нажмите Enter на пустой строке, чтобы получить подсказку от компьютера.");
 
         while (!game.isGameOver()) {
-            System.out.println("\nОсталось попыток: " + game.getSteps());
+            System.out.println("\nОсталось попыток: " + game.getSteps() + " | Осталось подсказок: " + remainingHints);
             System.out.print("> ");
 
             if (!scanner.hasNextLine()) {
@@ -57,9 +63,22 @@ public class Wordle {
             }
 
             String input = scanner.nextLine();
-            if (input.trim().isEmpty()) {
+            String trimmedInput = input.trim();
+
+            if (trimmedInput.equalsIgnoreCase("стоп")) {
+                System.out.println("Вы вышли из игры досрочно.");
+                log.println("Игрок досрочно завершил игру командой 'стоп'.");
+                break;
+            }
+
+            if (trimmedInput.isEmpty()) {
+                if (remainingHints <= 0) {
+                    System.out.println("Подсказки закончились. Введите слово из 5 букв (или 'стоп' для выхода).");
+                    continue;
+                }
+                remainingHints--;
                 String suggestion = game.getHintWord();
-                System.out.println("Подсказка компьютера: " + suggestion);
+                System.out.println("Подсказка компьютера: " + suggestion + " (осталось подсказок: " + remainingHints + ")");
                 continue;
             }
 

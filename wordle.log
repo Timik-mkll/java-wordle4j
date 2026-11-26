@@ -1,19 +1,15 @@
 Загружен словарь из 'words_ru.txt'. Прочитано строк: 67763, отобрано 5-буквенных слов: 4137
 [WordleGame] Игра начата | steps=6 | won=false | guessesCount=0
-[WordleGame] Выдана подсказка: 'ногай' | steps=6 | won=false | guessesCount=0
-[WordleGame] Выдана подсказка: 'коряк' | steps=6 | won=false | guessesCount=0
-[WordleGame] Ход выполнен: слово='моряк', подсказка='-----' | steps=5 | won=false | guessesCount=1
-[WordleGame] Выдана подсказка: 'пенье' | steps=5 | won=false | guessesCount=1
-[WordleGame] Ход выполнен: слово='пенек', подсказка='--^--' | steps=4 | won=false | guessesCount=2
-[WordleGame] Выдана подсказка: 'жизнь' | steps=4 | won=false | guessesCount=2
-Игровое предупреждение (слово не в словаре): ножки
-[WordleGame] Выдана подсказка: 'лизун' | steps=4 | won=false | guessesCount=2
-[WordleGame] Ход выполнен: слово='лизун', подсказка='-+--+' | steps=3 | won=false | guessesCount=3
-[WordleGame] Ход выполнен: слово='филин', подсказка='-+--+' | steps=2 | won=false | guessesCount=4
-[WordleGame] Выдана подсказка: 'гитан' | steps=2 | won=false | guessesCount=4
-[WordleGame] Выдана подсказка: 'диван' | steps=2 | won=false | guessesCount=4
-[WordleGame] Ход выполнен: слово='диван', подсказка='-+-++' | steps=1 | won=false | guessesCount=5
-[WordleGame] Выдана подсказка: 'жиган' | steps=1 | won=false | guessesCount=5
-[WordleGame] Выдана подсказка: 'титан' | steps=1 | won=false | guessesCount=5
-[WordleGame] Выдана подсказка: 'нисан' | steps=1 | won=false | guessesCount=5
-[WordleGame] Ход выполнен: слово='титан', подсказка='-+-++' | steps=0 | won=false | guessesCount=6
+[WordleGame] Выдана подсказка: 'друид' | steps=6 | won=false | guessesCount=0
+[WordleGame] Ход выполнен: слово='дрова', подсказка='-----' | steps=5 | won=false | guessesCount=1
+[WordleGame] Выдана подсказка: 'тупей' | steps=5 | won=false | guessesCount=1
+[WordleGame] Ход выполнен: слово='голяк', подсказка='-----' | steps=4 | won=false | guessesCount=2
+Игровое предупреждение (слово не в словаре): устюг
+[WordleGame] Выдана подсказка: 'питух' | steps=4 | won=false | guessesCount=2
+[WordleGame] Ход выполнен: слово='петух', подсказка='^-^^-' | steps=3 | won=false | guessesCount=3
+[WordleGame] Ход выполнен: слово='туман', подсказка='++---' | steps=2 | won=false | guessesCount=4
+[WordleGame] Выдана подсказка: 'тупцы' | steps=2 | won=false | guessesCount=4
+[WordleGame] Выдана подсказка: 'тупыш' | steps=2 | won=false | guessesCount=4
+Игровое предупреждение (слово не в словаре): тупен
+Игровое предупреждение (слово не в словаре): тупак
+Игрок досрочно завершил игру командой 'стоп'.
