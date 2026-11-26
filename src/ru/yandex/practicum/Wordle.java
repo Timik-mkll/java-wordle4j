@@ -1,18 +1,95 @@
 package ru.yandex.practicum;
 
-/*
-в главном классе нам нужно:
-    создать лог-файл (он должен передаваться во все классы)
-    создать загрузчик словарей WordleDictionaryLoader
-    загрузить словарь WordleDictionary с помощью класса WordleDictionaryLoader
-    затем создать игру WordleGame и передать ей словарь
-    вызвать игровой метод в котором в цикле опрашивать пользователя и передавать информацию в игру
-    вывести состояние игры и конечный результат
- */
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
 public class Wordle {
 
-    public static void main(String[] args) {
+    private static final String DICTIONARY_FILE = "words_ru.txt";
+    private static final String LOG_FILE = "wordle.log";
 
+    public static void main(String[] args) {
+        try (PrintWriter log = new PrintWriter(
+                new OutputStreamWriter(new FileOutputStream(LOG_FILE), StandardCharsets.UTF_8), true)) {
+
+            runApplication(log);
+
+        } catch (Exception e) {
+            System.out.println("Произошла внутренняя ошибка работы программы. Подробности сохранены в лог-файл.");
+            e.printStackTrace();
+        }
     }
 
+    private static void runApplication(PrintWriter log) {
+        WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
+        WordleDictionary dictionary;
+
+        try {
+            dictionary = loader.loadDictionary(DICTIONARY_FILE);
+        } catch (IOException | IllegalArgumentException e) {
+            log.println("Ошибка загрузки словаря: " + e.getMessage());
+            e.printStackTrace(log);
+            log.flush();
+            System.out.println("Не удалось загрузить словарь из файла '" + DICTIONARY_FILE + "'. Работа завершена.");
+            return;
+        }
+
+        WordleGame game = new WordleGame(dictionary, log);
+        runGameLoop(game, log);
+    }
+
+    private static void runGameLoop(WordleGame game, PrintWriter log) {
+        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+
+        System.out.println("Добро пожаловать в Wordle!");
+        System.out.println("Угадайте существительное из " + WordleDictionary.WORD_LENGTH
+                + " букв за " + WordleGame.MAX_STEPS + " попыток.");
+        System.out.println("Нажмите Enter на пустой строке, чтобы получить подсказку от компьютера.");
+
+        while (!game.isGameOver()) {
+            System.out.println("\nОсталось попыток: " + game.getSteps());
+            System.out.print("> ");
+
+            if (!scanner.hasNextLine()) {
+                log.println("Входной поток завершён до окончания игры.");
+                break;
+            }
+
+            String input = scanner.nextLine();
+            if (input.trim().isEmpty()) {
+                String suggestion = game.getHintWord();
+                System.out.println("Подсказка компьютера: " + suggestion);
+                continue;
+            }
+
+            try {
+                String hint = game.makeGuess(input);
+                System.out.println("> " + hint);
+                if (game.isWon()) {
+                    System.out.println("Поздравляем! Вы угадали слово!");
+                }
+            } catch (WordNotFoundInDictionaryException e) {
+                log.println("Игровое предупреждение (слово не в словаре): " + e.getMessage());
+                System.out.println("Такого слова нет в словаре. Попробуйте другое слово (ход не засчитан).");
+            } catch (InvalidWordFormatException e) {
+                log.println("Игровое предупреждение (некорректный ввод): " + e.getMessage());
+                System.out.println("Некорректный ввод: " + e.getMessage() + " (ход не засчитан).");
+            } catch (GameRuleException e) {
+                log.println("Игровое предупреждение: " + e.getMessage());
+                System.out.println("Ошибка правила игры: " + e.getMessage() + " (ход не засчитан).");
+            } catch (RuntimeException e) {
+                log.println("Критическая ошибка в игровом цикле: " + e.getMessage());
+                e.printStackTrace(log);
+                log.flush();
+                throw e;
+            }
+        }
+
+        System.out.println("\nИгра окончена.");
+        System.out.println("Загаданное слово: " + game.getAnswer());
+        if (!game.isWon()) {
+            System.out.println("Попытки закончились. В следующий раз обязательно получится!");
+        }
+    }
 }
